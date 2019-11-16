@@ -7,12 +7,15 @@ bit 학원에서 한 미니 팀 과제
 miniProject1 & miniProject2
 
 
-<miniProject1>
+
+miniProject1
   
   : 회원가입 및 로그인 후 방명록, 게시판 기능을 처리를 하기 위한 프로그램
   
   
-<miniProject2>
+  
+  
+miniProject2
   
   1 : 동적으로 메뉴를 추가, 수정, 삭제, up, down 버튼을 이용해서 jQuery로 구현
   
