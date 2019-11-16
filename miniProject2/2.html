@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DOM을 이용해 HTML요소를 간단하게 만들어 주는 make 함수</title>
+<script type="text/javascript">
+
+
+function test(){
+
+   
+   //make함수로 간편하게 HTML 구성하기
+   function make(tagname, /*객체 프로퍼티와 값*/attributes,/*요소에 추가할 자식*/children){
+      var a =[];
+      
+      //tag 생성
+      var tag = document.createElement(tagname);
+      
+      
+      //생성한 tag의 속성을 추가 ->그 속성에 대한 값을 들고있을 때만 추가하도록 설정
+      if(attributes.style!=null){tag.setAttribute("style",attributes.style);}
+      if(attributes.id!=null){tag.setAttribute("id", attributes.id);}
+      if(attributes.name!=null){tag.setAttribute("name", attributes.name)}
+      if(attributes.value!=null){tag.setAttribute("value", attributes.value)}
+      
+      if(typeof children == 'string'){ // String type처리
+         
+      var   text = document.createTextNode(children); // text노드만들기
+      tag.appendChild(text);
+      
+      }else if(children instanceof Array){ //배열에 대한 처리 (childre이 배열이면)
+         
+         for(var i=0; i<children.length; i++){
+            
+               var child = children[i];
+               console.log("++++++++++child++++++++++++")
+               console.log(child);
+               tag.appendChild(child);   
+            }         
+               
+      }else { // 배열을 들고 있는 객체에 대한 처리! ->이거 없으면 표 생성 안됨
+         var child = children;
+         tag.appendChild(child);
+      }
+      
+      //return 하지 않으면 fail to execute error 발생!
+      console.log("==========tag==========")
+      console.log(tag);
+      return tag;
+      
+   }
+   
+   //body
+   var body = document.getElementsByTagName('body')[0];
+
+   var div = make("div", {'style':'background-color:lightpink', 'id':'div1'},"hello world");
+   
+   body.appendChild(div);
+
+   var tds = [make("td",{},"Name"), make("td",{},"Type"), make("td",{},"Value")];
+   console.log(tds);
+   var tr = make("tr",{}, tds);
+   console.log(tr);
+
+   var table = make("table", {'style':'border:1px solid black'}, tr);
+   console.log("==========table============");
+   console.log(table);
+   body.appendChild(table);
+
+}
+</script>
+</head>
+<body onload="test()">
+
+</body>
+</html>

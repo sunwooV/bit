@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>동적 추가 메뉴 만들기</title>
+<style type="text/css">
+ul {
+   border: 1px solid black;
+   padding: 25px;
+   width: 700px;
+   list-style: none;
+}
+
+.select {
+   background: black;
+   color: white;
+}
+</style>
+<script type="text/javascript">
+   var idd = 0;
+   function menu() {
+
+      var ul = document.getElementById("menu"); // ul에 접근 + 많은 함수에서 사용될 예정이기때문에 변수처리
+
+      var idAdd = document.getElementById('add'); //id가 add인 것에 접근
+
+      idAdd.onclick = function() { //add클릭했을때 발생!
+
+         var input = document.getElementById("input").value; //input값 가져오기
+         var newLi = document.createElement("li"); //새로운 li tag 생성
+         var ID = idValue();
+         newLi.setAttribute('id', ID); //li tag에 id 부여
+         console.log(ID);
+         newLi.setAttribute('onclick', 'validateLi(' + ID + ')');
+         console.log(newLi.getAttribute('onclick'));
+         var child = document.createTextNode(input); //input 값을 텍스트 노드로생성!
+         newLi.appendChild(child); //생성한 li tag에 input추가 
+         ul.appendChild(newLi); //만들어진 li tag를 ul에 추가
+         console.log(ul);
+         //   console.log(newLi);
+         return ul; // 변경된 ul 리턴
+      };
+
+      var idUpdate = document.getElementById('update'); //id가 update인 것에 접근
+      idUpdate.onclick = function() {
+         console.log(idd);
+
+         var edit = document.getElementById(idd);
+         if (idd == null) {
+            alert("선택된 값이 없습니다!!");
+         }
+
+         else {
+
+            var input = document.getElementById("input").value; //input값 가져오기
+            if (input == '') {
+               alert("입력된 값이 없습니다.");
+            } else {
+
+               var inputF = document.getElementById("input");
+               inputF.value = "";
+               return edit.innerHTML = input;
+            }
+         }
+
+      };
+
+      var idDelete = document.getElementById('delete'); //id가 delete인 것에 접근
+      idDelete.onclick = function() {
+         console.log(idd);
+
+         var edit = document.getElementById(idd);
+         if (idd == null) {
+            alert("선택된 값이 없습니다!!");
+         } else {
+
+            var inputF = document.getElementById("input");
+            inputF.value = "";
+            return edit.innerHTML = "";
+         }
+      };
+
+      var idUp = document.getElementById('up'); //id가 up인 것에 접근
+      idUp.onclick = function() {
+         var ull = document.getElementsByTagName('ul');
+         var current = document.getElementsByTagName('li');
+         var prev = idd - 1;
+         console.log(current[prev]);
+
+         //changeId(current[idd],current[prev]);
+         changeText(current[idd], current[prev]);
+         console.log(current);
+         changeOnclick(current[idd], current[prev]);
+         
+         idd--;
+
+         ull.innerHTML = current;
+
+      };
+      var idDown = document.getElementById('down'); //id가 down인 것에 접근
+      idDown.onclick = function() {
+         var ull = document.getElementsByTagName('ul');
+         var current = document.getElementsByTagName('li');
+         var prev = idd + 1;
+         console.log(current);
+
+         //changeId(current[idd],current[prev]);
+         changeText(current[idd], current[prev]);
+
+         //changeOnclick(current[idd],current[prev]);
+         idd++;
+
+         ull.innerHTML = current;
+      };
+      function changeId(a, b) { // updown시 아이디 변경
+         var tmp = a.id;
+         a.id = b.id;
+         b.id = tmp;
+         //validateId(a.id);
+      }
+      ;
+
+      function changeText(a, b) { // updown시 내용변경
+         var tmp = a.innerHTML;
+         a.innerHTML = b.innerHTML;
+         b.innerHTML = tmp;
+      }
+      ;
+      function changeOnclick(a, b) {
+         //var tmp = a.onclick;
+         //console.log('tmp : ' + tmp);
+         console.log(b.onclick);
+         a.onclick = function() {
+            validateLi(a.id)
+         };
+         b.onclick = function() {
+            validateLi(b.id);
+         };
+         //b.onclick = tmp;
+      }
+      ;
+
+      function idValue() { // li tag 아이디의 경우는 숫자니까 ++해서 생성해주는 함수!
+         var realLast = takeLength(); // ul의 엔터가 아닌 마지막 태그 가져오기
+         var id = realLast + 1; // 마지막 li tag의 아이디 가져오기
+
+         return id;
+      }
+      ;
+      /*
+       function takeLastNode(a) { // 빈 텍스트 노드 처리하고 마지막 태그 가져오는 함수
+       var lastNode = a.lastChild;
+       while (lastNode.nodeType != 1) { // 노드 타입으로 거른다! ->꼭 기억하기!!!!!!!
+       lastNode = lastNode.previousSibling;
+       }
+       return lastNode;
+       }; */
+
+      function takeLength() {
+         var cnt = document.getElementsByTagName('li').length - 1;
+         return cnt;
+      }
+
+   }
+
+   function validateLi(id) { //클릭시 해당 메뉴 활성화시키기
+      //var a = document.getElementById("li");
+      console.log(id);
+      idd = id;
+      //return idd;
+      var inputF = document.getElementById("input");
+      inputF.value = document.getElementById(idd).innerHTML;
+   };
+
+   function change1(input) {
+      input.style.backgroundColor = "lightpink";
+
+   }
+   function change2() {
+      input.style.backgrounColor = "white";
+
+   }
+</script>
+</head>
+<body onload="menu()">
+
+   <input type="text" id="input">
+
+   <input type="button" id="add" value="추가" />
+   <input type="button" id="update" value="수정" onClick="Update()" />
+   <input type="button" id="delete" value="삭제" onClick="Delete()" />
+   <input type="button" id="up" value="UP" onClick="Up()" />
+   <input type="button" id="down" value="DOWN" onClick="Down()" />
+
+
+   <ul id='menu'>
+      <li id=0 onClick="validateLi(0)">메뉴1</li>
+      <li id=1 onClick="validateLi(1)">메뉴2</li>
+      <li id=2 onClick="validateLi(2)">메뉴3</li>
+   </ul>
+
+</body>
+</html>
