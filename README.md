@@ -12,7 +12,7 @@ miniProject1
   
   : 회원가입 및 로그인 후 방명록, 게시판 기능을 처리를 하기 위한 프로그램
   
-  
+  결과물 : https://blog.naver.com/sws_221/221709681797
   
   
 miniProject2
